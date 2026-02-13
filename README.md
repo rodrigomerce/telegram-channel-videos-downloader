@@ -1,38 +1,67 @@
-# Como obter API_ID e API_HASH do Telegram
+# Telegram Channel Videos Downloader
 
-Para usar este script, voce precisa de credenciais da API do Telegram. Siga os passos abaixo:
+Download all videos from any Telegram channel automatically using the Telegram API.
 
-## Passo a passo
+## Funcionalidades
 
-1. Acesse [https://my.telegram.org](https://my.telegram.org)
+- Lista todos os seus canais e grupos do Telegram
+- Detecta automaticamente se o canal possui videos
+- Baixa todos os videos mantendo o nome original dos arquivos
+- Suporta retomada: se parar no meio, basta rodar novamente que os ja baixados serao pulados
+- Mostra progresso de download em tempo real
 
-2. Faca login com seu **numero de telefone** (mesmo formato do Telegram, ex: +5511999999999)
+## Requisitos
 
-3. Voce recebera um **codigo de confirmacao** no proprio Telegram (no chat "Telegram")
+- Python 3.8+
+- Uma conta no Telegram
 
-4. Apos o login, clique em **"API development tools"**
+## Instalacao
 
-5. Preencha o formulario para criar um app:
-   - **App title**: qualquer nome (ex: "Meu Downloader")
-   - **Short name**: qualquer nome curto (ex: "meuapp")
-   - **Platform**: pode deixar "Desktop"
-   - **Description**: pode deixar vazio
-
-6. Clique em **"Create application"**
-
-7. Voce vera o **App api_id** (um numero) e o **App api_hash** (uma string hexadecimal)
-
-## Configurando
-
-Abra o arquivo `config.py` e substitua os valores:
-
-```python
-API_ID = 123456                          # Seu api_id (numero)
-API_HASH = "abcdef1234567890abcdef1234"  # Seu api_hash (string)
+1. Clone o repositorio:
+```bash
+git clone https://github.com/rodrigomerce/telegram-channel-videos-downloader.git
+cd telegram-channel-videos-downloader
 ```
 
-## Observacoes
+2. Instale a dependencia:
+```bash
+pip install telethon
+```
 
-- Essas credenciais sao **pessoais** e vinculadas a sua conta. Nao compartilhe com ninguem.
-- Voce so precisa criar o app **uma vez**. As credenciais nao expiram.
-- O Telegram permite no maximo **criar um app por conta**.
+3. Crie o arquivo de configuracao a partir do modelo:
+```bash
+cp config.example.py config.py
+```
+
+4. Edite o `config.py` com suas credenciais da API do Telegram:
+```python
+API_ID = 123456
+API_HASH = "seu_api_hash_aqui"
+```
+
+> Nao sabe como obter essas credenciais? Veja o guia em [CONFIGURACAO.md](CONFIGURACAO.md).
+
+## Uso
+
+```bash
+python download_telegram_videos.py
+```
+
+Na primeira execucao, sera solicitado seu numero de telefone e um codigo de verificacao enviado pelo Telegram. Depois disso, a sessao fica salva e nao sera necessario logar novamente.
+
+O script ira:
+1. Listar todos os seus canais e grupos
+2. Voce escolhe o canal pelo numero
+3. Verificar se o canal possui videos
+4. Pedir confirmacao antes de iniciar
+5. Baixar todos os videos na pasta `./videos/`
+
+## Estrutura
+
+```
+├── config.example.py           # Modelo de configuracao (copie para config.py)
+├── config.py                   # Suas credenciais (ignorado pelo git)
+├── CONFIGURACAO.md             # Guia para obter API_ID e API_HASH
+├── download_telegram_videos.py # Script principal
+└── videos/                     # Pasta onde os videos sao salvos
+```
