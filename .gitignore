@@ -1,0 +1,4 @@
+config.py
+*.session
+videos/
+__pycache__/
